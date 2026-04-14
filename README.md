@@ -6,7 +6,9 @@ Managed by [chezmoi](https://www.chezmoi.io/).
 
 - `~/.zshenv`
 - `~/.zshrc`
+- `~/.zsh_plugins.txt`
 - `~/.wezterm.lua`
+- `~/.config/atuin/config.toml`
 - `~/.config/starship.toml`
 - `~/.config/starship-dark.toml`
 - `~/.config/starship-light.toml`
@@ -31,6 +33,15 @@ Managed by [chezmoi](https://www.chezmoi.io/).
 | `fkill` | Fuzzy-select a process from `ps` and send it `kill`. |
 | `fhist` | Fuzzy-search shell history and put the selected command back on the prompt for editing. |
 
+### Completions
+
+`antidote` loads `~/.zsh_plugins.txt`, which includes `zsh-users/zsh-completions`
+for additional command completions. `compinit` is initialized after plugins are
+loaded so the extra completion functions are available in new shells.
+
+`zsh-users/zsh-autosuggestions` is also loaded for inline history-based
+suggestions while typing. Press the right arrow key to accept the suggestion.
+
 ### Directory Jumping
 
 `zoxide` is initialized as `z` when installed:
@@ -41,6 +52,18 @@ Managed by [chezmoi](https://www.chezmoi.io/).
 | `zi` | Interactive fuzzy directory jump. |
 
 `zoxide` learns from normal `cd` usage, so it becomes useful after visiting projects a few times.
+
+### Shell History
+
+`atuin` is initialized when installed and replaces the default reverse history
+search with a searchable, syncable command history.
+
+| Command | Description |
+| --- | --- |
+| `atuin import auto` | Import existing shell history into Atuin. |
+| `atuin register` | Create a sync account. |
+| `atuin login` | Log into an existing sync account. |
+| `atuin sync` | Sync history with the configured Atuin server. |
 
 ## Daily workflow
 
@@ -56,7 +79,9 @@ Import current changes from `$HOME` into chezmoi:
 
 ```sh
 chezmoi add ~/.zshrc
+chezmoi add ~/.zsh_plugins.txt
 chezmoi add ~/.wezterm.lua
+chezmoi add ~/.config/atuin/config.toml
 chezmoi add ~/.config/starship-dark.toml
 chezmoi add ~/.config/starship-light.toml
 ```

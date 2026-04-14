@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+if [ "$(uname -s)" != "Darwin" ]; then
+	exit 0
+fi
+
+if command -v atuin >/dev/null 2>&1; then
+	exit 0
+fi
+
+if ! command -v brew >/dev/null 2>&1; then
+	echo "Homebrew is required to install Atuin on macOS." >&2
+	exit 1
+fi
+
+brew install atuin

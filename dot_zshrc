@@ -1,6 +1,10 @@
 export PATH="/opt/homebrew/bin:$PATH" # Homebrew
 export PATH="$HOME/.pnpm:$PATH" # pnpm
 
+if [[ -r "$HOME/.atuin/bin/env" ]]; then
+	. "$HOME/.atuin/bin/env"
+fi
+
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/svs/.lmstudio/bin"
 # End of LM Studio CLI section
@@ -95,6 +99,22 @@ fi
 
 if command -v zoxide >/dev/null 2>&1; then
 	eval "$(zoxide init zsh --cmd z)"
+fi
+
+if [[ -r /opt/homebrew/opt/antidote/share/antidote/antidote.zsh ]]; then
+	source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
+	antidote load "${ZDOTDIR:-$HOME}/.zsh_plugins.txt"
+fi
+
+autoload -Uz compinit
+if [[ -n "${ZDOTDIR:-}" ]]; then
+	compinit -d "${ZDOTDIR}/.zcompdump"
+else
+	compinit
+fi
+
+if command -v atuin >/dev/null 2>&1; then
+	eval "$(atuin init zsh)"
 fi
 
 if [[ "${SYSTEM_APPEARANCE:-dark}" == "light" ]]; then
