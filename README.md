@@ -94,7 +94,8 @@ Learning path:
 
 | Resource | Use it for |
 | --- | --- |
-| `:Tutor` | Built-in interactive Neovim basics. |
+| `:Tutor ru` | Built-in interactive Neovim basics in Russian. |
+| `:Tutor en` | Built-in interactive Neovim basics in English. |
 | LazyVim for Ambitious Developers | Practical LazyVim workflow, including debugging and testing chapters. |
 | VimHero | Browser-based interactive drills for Vim motions and text objects. |
 | VIM Adventures | Game-style practice for core Vim motions and operators. |
