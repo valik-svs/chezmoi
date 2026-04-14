@@ -1,0 +1,106 @@
+export PATH="/opt/homebrew/bin:$PATH" # Homebrew
+export PATH="$HOME/.pnpm:$PATH" # pnpm
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/svs/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# opencode
+export PATH=/Users/svs/.opencode/bin:$PATH
+
+# Hermes Agent - ensure ~/.local/bin is on PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+export HOMEBREW_NO_AUTO_UPDATE=true
+export EDITOR=nano
+export VISUAL="$EDITOR"
+
+if command -v eza >/dev/null 2>&1; then
+	alias ls="eza --group-directories-first"
+	alias ll="eza -la --group-directories-first --git"
+	alias tree="eza --tree --group-directories-first"
+fi
+
+if command -v bat >/dev/null 2>&1; then
+	alias cat="bat --paging=never"
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+	export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --info=inline"
+	if command -v fd >/dev/null 2>&1; then
+		export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
+		export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+	fi
+
+	fcd() {
+		local dir
+		dir=$(
+			fd --type d --hidden --follow --exclude .git . "${1:-.}" 2>/dev/null \
+				| fzf --prompt="cd> " --preview='eza -la --group-directories-first --color=always {} 2>/dev/null || ls -la {}'
+		) || return
+		cd "$dir"
+	}
+
+	fopen() {
+		local file
+		file=$(
+			fd --type f --hidden --follow --exclude .git . "${1:-.}" 2>/dev/null \
+				| fzf --prompt="open> " --preview='bat --color=always --style=numbers --line-range=:200 {} 2>/dev/null || sed -n "1,200p" {}'
+		) || return
+		${EDITOR:-nano} "$file"
+	}
+
+	fkill() {
+		local pid
+		pid=$(ps -axo pid=,comm= | fzf --prompt="kill> " | awk '{print $1}') || return
+		[[ -n "$pid" ]] && kill "$pid"
+	}
+
+	fhist() {
+		local command
+		command=$(fc -rl 1 | fzf --prompt="history> " | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//') || return
+		print -z "$command"
+	}
+fi
+
+export NVM_DIR="$HOME/.nvm"
+load_nvm() {
+	unset -f load_nvm nvm node npm npx corepack
+	[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh" --no-use
+}
+nvm() {
+	load_nvm
+	nvm "$@"
+}
+node() {
+	load_nvm
+	node "$@"
+}
+npm() {
+	load_nvm
+	npm "$@"
+}
+npx() {
+	load_nvm
+	npx "$@"
+}
+corepack() {
+	load_nvm
+	corepack "$@"
+}
+
+if command -v pyenv 1>/dev/null 2>&1; then
+	eval "$(pyenv init - --no-rehash)"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+	eval "$(zoxide init zsh --cmd z)"
+fi
+
+if [[ "${SYSTEM_APPEARANCE:-dark}" == "light" ]]; then
+	export STARSHIP_CONFIG="$HOME/.config/starship-light.toml"
+else
+	export STARSHIP_CONFIG="$HOME/.config/starship-dark.toml"
+fi
+
+eval "$(starship init zsh)"
