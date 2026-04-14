@@ -22,7 +22,12 @@ return {
             nargs = "?",
             complete = function(lead, line, pos)
               local items = { "ru", "en" }
-              vim.list_extend(items, vim.fn["tutor#TutorCmdComplete"](lead, line, pos))
+              local builtins = vim.fn["tutor#TutorCmdComplete"](lead, line, pos)
+              if type(builtins) == "string" and builtins ~= "" then
+                vim.list_extend(items, vim.split(builtins, "\n", { plain = true, trimempty = true }))
+              elseif type(builtins) == "table" then
+                vim.list_extend(items, builtins)
+              end
               return items
             end,
           })
