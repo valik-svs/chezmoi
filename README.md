@@ -8,6 +8,7 @@ Managed by [chezmoi](https://www.chezmoi.io/).
 - `~/.zshrc`
 - `~/.zsh_plugins.txt`
 - `~/.wezterm.lua`
+- `~/.config/nvim/`
 - `~/.config/atuin/config.toml`
 - `~/.config/starship.toml`
 - `~/.config/starship-dark.toml`
@@ -65,6 +66,39 @@ search with a searchable, syncable command history.
 | `atuin login` | Log into an existing sync account. |
 | `atuin sync` | Sync history with the configured Atuin server. |
 
+## Neovim
+
+`~/.config/nvim` uses LazyVim as the base config and enables Python,
+TypeScript/JavaScript, JSON, Markdown, YAML, TOML, Docker, REST, DAP debugging,
+and test-runner extras.
+
+Useful entry points:
+
+| Command | Description |
+| --- | --- |
+| `<leader>cx` | Manage LazyVim extras. |
+| `<leader>cm` | Open Mason tool installer. |
+| `<leader>fp` | Switch projects. |
+| `<leader>ff` | Find files in the current project. |
+| `<leader>fg` | Grep in the current project. |
+| `<leader>db` | Toggle a debugger breakpoint. |
+| `<leader>dc` | Start or continue debugging. |
+| `<leader>du` | Toggle debugger UI. |
+| `<leader>tr` | Run nearest test. |
+| `<leader>td` | Debug nearest test. |
+
+The theme follows macOS light/dark appearance and falls back to dark mode when
+the system appearance cannot be detected.
+
+Learning path:
+
+| Resource | Use it for |
+| --- | --- |
+| `:Tutor` | Built-in interactive Neovim basics. |
+| LazyVim for Ambitious Developers | Practical LazyVim workflow, including debugging and testing chapters. |
+| VimHero | Browser-based interactive drills for Vim motions and text objects. |
+| VIM Adventures | Game-style practice for core Vim motions and operators. |
+
 ## Daily workflow
 
 Edit a managed file:
@@ -81,6 +115,7 @@ Import current changes from `$HOME` into chezmoi:
 chezmoi add ~/.zshrc
 chezmoi add ~/.zsh_plugins.txt
 chezmoi add ~/.wezterm.lua
+chezmoi add ~/.config/nvim
 chezmoi add ~/.config/atuin/config.toml
 chezmoi add ~/.config/starship-dark.toml
 chezmoi add ~/.config/starship-light.toml
